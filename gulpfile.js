@@ -3,7 +3,7 @@ const sass = require("gulp-sass");
 const cleanCSS = require("gulp-clean-css");
 const rename = require("gulp-rename");
 
-// Copy third party tools from node_modules to /public/vendor
+// Copy third party tools from /node_modules to /public/vendor
 gulp.task("vendor", () => {
   return console.log("Task for node_modules here...");
 });
@@ -41,5 +41,12 @@ gulp.task("css:minify", ["css:compile"], () => {
 // CSS tasks
 gulp.task("css", ["css:compile", "css:minify"]);
 
+/* TODO: Minify JS and Concat JS files */
+
 // Default task
 gulp.task("default", ["vendor", "css"]);
+
+// Dev Task
+gulp.task("dev", ["css"], () => {
+  gulp.watch("./public/stylesheets/sass/*.scss", ["css"]);
+});
