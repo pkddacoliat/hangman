@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "dev": "node ./bin/www"
+    "start": "gulp && node ./bin/www",
+    "dev": "gulp && nodemon ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
@@ -19,6 +19,7 @@
     "gulp-clean-css": "^4.0.0",
     "gulp-rename": "^1.4.0",
     "gulp-sass": "^4.0.2",
+    "gulp-uglify": "^3.0.1",
     "node-sass": "^4.10.0",
     "nodemon": "^1.18.6"
   }
