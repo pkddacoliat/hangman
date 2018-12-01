@@ -6,7 +6,13 @@ const terser = require("gulp-terser");
 
 // Copy third party tools from /node_modules to /public/vendor
 gulp.task("vendor", () => {
-  return console.log("Task for node_modules here...");
+  // jQuery
+  gulp
+    .src([
+      "./node_modules/jquery/dist/*",
+      "!./node_modules/jquery/dist/core.js"
+    ])
+    .pipe(gulp.dest("./public/vendor/jquery"));
 });
 
 // Compile SCSS
