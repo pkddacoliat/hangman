@@ -13,6 +13,15 @@ gulp.task("vendor", () => {
       "!./node_modules/jquery/dist/core.js"
     ])
     .pipe(gulp.dest("./public/vendor/jquery"));
+    
+  // Bootstrap
+  gulp
+    .src([
+      "./node_modules/bootstrap/dist/**/*",
+      // "!./node_modules/bootstrap/dist/css/bootstrap-grid*",
+      // "!./node_modules/bootstrap/dist/css/bootstrap-reboot*"
+    ])
+    .pipe(gulp.dest("./public/vendor/bootstrap"));
 });
 
 // Compile SCSS
