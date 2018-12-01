@@ -2,7 +2,7 @@ const gulp = require("gulp");
 const sass = require("gulp-sass");
 const cleanCSS = require("gulp-clean-css");
 const rename = require("gulp-rename");
-const uglify = require("gulp-uglify");
+const terser = require("gulp-terser");
 
 // Copy third party tools from /node_modules to /public/vendor
 gulp.task("vendor", () => {
@@ -46,7 +46,7 @@ gulp.task("css", ["css:compile", "css:minify"]);
 gulp.task("js:minify", () => {
   return gulp
     .src(["./public/javascript/*.js", "!./public/javascript/*.min.js"])
-    .pipe(uglify())
+    .pipe(terser())
     .pipe(
       rename({
         suffix: ".min"
