@@ -3,6 +3,7 @@ const sass = require("gulp-sass");
 const cleanCSS = require("gulp-clean-css");
 const rename = require("gulp-rename");
 const terser = require("gulp-terser");
+const imageMin = require("gulp-imagemin");
 
 // Copy third party tools from /node_modules to /public/vendor
 gulp.task("vendor", () => {
@@ -13,11 +14,11 @@ gulp.task("vendor", () => {
       "!./node_modules/jquery/dist/core.js"
     ])
     .pipe(gulp.dest("./public/vendor/jquery"));
-    
+
   // Bootstrap
   gulp
     .src([
-      "./node_modules/bootstrap/dist/**/*",
+      "./node_modules/bootstrap/dist/**/*"
       // "!./node_modules/bootstrap/dist/css/bootstrap-grid*",
       // "!./node_modules/bootstrap/dist/css/bootstrap-reboot*"
     ])
@@ -73,14 +74,34 @@ gulp.task("js:minify", () => {
     .pipe(gulp.dest("./public/javascript"));
 });
 
-// JS tasks
+// JS task
 gulp.task("js", ["js:minify"]);
 
+// Minify Images
+gulp.task("img:minify", () => {
+  return gulp
+    .src(["./public/images/*.png", "!./public/images/*.min.png"])
+    .pipe(imageMin())
+    .pipe(
+      rename({
+        suffix: ".min"
+      })
+    )
+    .on("error", err => {
+      gutil.log(gutil.colors.red("[Error]"), err.toString());
+    })
+    .pipe(gulp.dest("./public/images"));
+});
+
+// Images task
+gulp.task("img", ["img:minify"]);
+
 // Default task
-gulp.task("default", ["vendor", "css", "js"]);
+gulp.task("default", ["vendor", "css", "js", "img"]);
 
 // Dev Task
-gulp.task("dev", ["css", "js"], () => {
+gulp.task("dev", ["css", "js", "img"], () => {
   gulp.watch("./public/stylesheets/sass/*.scss", ["css"]);
   gulp.watch("./public/javascript/*.js", ["js"]);
+  gulp.watch("./public/images/*", ["img"]);
 });
