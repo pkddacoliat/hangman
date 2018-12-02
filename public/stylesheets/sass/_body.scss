@@ -1,3 +1,12 @@
-body {
+.my-container {
+  border: 1px solid green;
+}
+
+.my-row {
+  border: 3px solid red;
   text-align: center;
+}
+
+.my-col {
+  border: 3px dotted blue;
 }
