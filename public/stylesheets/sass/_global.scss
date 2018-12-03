@@ -2,21 +2,28 @@ $borderColour: #212529;
 
 body {
   text-align: center;
+  font-family: "Indie Flower", cursive;
+  font-weight: bold;
+  // background: url("/images/bg.jpg") no-repeat center center fixed;
+  // background-size: cover;
+  // height: 100%;
+  // overflow: hidden;
+  // font-family: 'Open Sans', sans-serif;
 }
-  
+
 .game-row {
-  margin-top: 1.25rem;
   .game-col {
-    border: 0.3125rem solid $borderColour;
+    border: 0.1875rem solid $borderColour;
     padding: 1.25rem;
   }
 }
 
-.stats-row {
-  .streak {
-    text-align: left;
-  }
-  .games-won {
-    text-align: right;
+.placeholder {
+  font-size: 50px;
+}
+
+#letterBtns {
+  .btn {
+    margin: 2px;
   }
 }

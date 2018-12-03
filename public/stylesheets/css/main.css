@@ -1,20 +1,18 @@
 body {
   text-align: center;
-}
-
-.game-row {
-  margin-top: 1.25rem;
+  font-family: "Indie Flower", cursive;
+  font-weight: bold;
 }
 
 .game-row .game-col {
-  border: 0.3125rem solid #212529;
+  border: 0.1875rem solid #212529;
   padding: 1.25rem;
 }
 
-.stats-row .streak {
-  text-align: left;
+.placeholder {
+  font-size: 50px;
 }
 
-.stats-row .games-won {
-  text-align: right;
+#letterBtns .btn {
+  margin: 2px;
 }

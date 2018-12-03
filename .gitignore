@@ -1,3 +1,5 @@
 node_modules
 public/vendor
-
+public/javascript/*.min.js
+public/stylesheets/css/main.min.css
+public/stylesheets/css/main.css

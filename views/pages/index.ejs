@@ -6,6 +6,7 @@
     <% include ../partials/navigation %>
     <div class="container-wrapper">
       <div class="container">
+        <!-- Instructions -->
         <!--
           <div class="row">
             <div class="col-md-12">
@@ -19,8 +20,10 @@
             </div>
           </div>
         -->
-        <div class="row justify-content-center game-row">
-          <div class="col-md-10 col-sm-10 col-10 game-col">
+
+        <!-- Gamebox -->
+        <div class="row justify-content-center game-row mt-3">
+          <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10 col-10 game-col">
             <img
               src="/images/1.min.png"
               class="img-fluid"
@@ -30,15 +33,25 @@
             />
           </div>
         </div>
-        <div class="row justify-content-center stats-row">
+
+        <!-- Stats and Category -->
+        <div class="row justify-content-center">
           <div class="col-md-3 order-md-1 order-sm-2 order-2">Streak: 0</div>
           <div class="col-md-3 order-md-2 order-sm-1 order-1">
             Category: Sports
           </div>
           <div class="col-md-3 order-md-3 order-sm-3 order-3">Games Won: 0</div>
         </div>
-        <div class="row"><div class="col-md-12 underlines">_ _ _ _ _</div></div>
-        <div class="row"><div class="col-md-12">Keyboard</div></div>
+
+        <!-- Placeholder -->
+        <div class="row mt-2">
+          <div class="col-md-12 placeholder">_ _ _ _ _</div>
+        </div>
+
+        <!-- Virtual Keyboard -->
+        <div class="row justify-content-center mt-2">
+          <div class="col-xl-6 col-md-12" id="letterBtns"></div>
+        </div>
       </div>
     </div>
     <% include ../partials/scripts %>
