@@ -1,1 +1,1 @@
-.my-container{border:1px solid green}.my-row{border:3px solid red;text-align:center}.my-col{border:3px dotted #00f}
+body{text-align:center}.game-row{margin-top:1.25rem}.game-row .game-col{border:.3125rem solid #212529;padding:1.25rem}.stats-row .streak{text-align:left}.stats-row .games-won{text-align:right}

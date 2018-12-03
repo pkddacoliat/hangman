@@ -1,0 +1,22 @@
+$borderColour: #212529;
+
+body {
+  text-align: center;
+}
+  
+.game-row {
+  margin-top: 1.25rem;
+  .game-col {
+    border: 0.3125rem solid $borderColour;
+    padding: 1.25rem;
+  }
+}
+
+.stats-row {
+  .streak {
+    text-align: left;
+  }
+  .games-won {
+    text-align: right;
+  }
+}
