@@ -1,23 +1,17 @@
 $(document).ready(() => {
-  // Reading in words from json file
-  // TODO: Retrieve words from Firebase
-  let words = {};
-  $.getJSON("/words.json", data => {
-    $.each(data, (index, value) => {
-      words = value;
-    });
-    console.log(words);
-  });
+  // Setup game on load
+  populateKeyboard();
+  newGame();
 
-  // Populating the letters to be used for the virtual keyboard
-  let alphabet = "a b c d e f g h i j k l m n o p q r s t u v w x y z";
-  alphabet = alphabet.split("");
-  alphabet = alphabet.filter(str => {
-    return /\S/.test(str);
-  });
+  // Buttons Onclick Handler
+  checkGuess();
+});
 
-  // Group 1 Buttons
-  let group1Btns = document.getElementById("letterBtns");
+populateKeyboard = () => {
+  // Populate the virtual keyboard with the alphabet
+  let alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+
+  let virtualKb = document.getElementById("letterBtns");
   for (let i = 0; i < 26; i++) {
     let $letterBtn = $(
       '<button type="button" class="btn btn-primary btn-lg">' +
@@ -25,12 +19,65 @@ $(document).ready(() => {
         "</button>"
     );
     $letterBtn.attr("id", alphabet[i]);
-    $letterBtn.appendTo(group1Btns);
+    $letterBtn.appendTo(virtualKb);
   }
+};
 
-  // Buttons Onclick Handler
+// Function sets up a new game
+newGame = () => {
+  let words = {};
+  let chosenCategory;
+  let chosenWord;
+
+  // Reading in words from json file
+  // TODO: Retrieve words from Firebase
+  $.getJSON("/data.json", data => {
+    $.each(data, (index, value) => {
+      data = value["data"];
+    });
+    return data;
+  }).then(data => {
+    words = data;
+    console.log(words["data"]);
+
+    chosenCategory =
+      words["data"][Math.floor(Math.random() * words["data"].length)];
+    console.log(chosenCategory["category"]);
+
+    chosenWord =
+      chosenCategory["words"][
+        Math.floor(Math.random() * chosenCategory["words"].length)
+      ];
+    console.log(chosenWord.charAt(0).toUpperCase() + chosenWord.slice(1));
+
+    populatePlaceHolder(chosenWord);
+  });
+};
+
+populatePlaceHolder = word => {
+  placeHolder = document.getElementById("placeHolder");
+  underlines = document.createElement("ul");
+
+  for (var i = 0; i < word.length; i++) {
+    underlines.setAttribute("id", "chosenWord");
+    chosenWordLetter = document.createElement("li");
+    chosenWordLetter.setAttribute("class", "guess");
+    if (word[i] === " ") {
+      chosenWordLetter.innerHTML = "&nbsp;";
+      space = 1;
+    } else {
+      chosenWordLetter.innerHTML = "_";
+    }
+
+    // geusses.push(guess);
+    placeHolder.appendChild(underlines);
+    underlines.appendChild(chosenWordLetter);
+  }
+};
+
+checkGuess = () => {
   $(".letter-buttons .btn").on("click", event => {
     console.log(event.target.innerHTML);
     $("#" + event.target.id).attr("disabled", true);
   });
-});
+};
