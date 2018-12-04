@@ -9,7 +9,7 @@ $(document).ready(() => {
 
 populateKeyboard = () => {
   // Populate the virtual keyboard with the alphabet
-  let alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+  let alphabet = "qwertyuiopasdfghjklzxcvbnm".split("");
 
   let virtualKb = document.getElementById("letterBtns");
   for (let i = 0; i < 26; i++) {

@@ -1,9 +1,6 @@
-$borderColour: #212529;
-
 body {
   text-align: center;
   font-family: "Indie Flower", cursive;
-  font-weight: bold;
   // background: url("/images/bg.jpg") no-repeat center center fixed;
   // background-size: cover;
   // height: 100%;
@@ -11,11 +8,14 @@ body {
   // font-family: 'Open Sans', sans-serif;
 }
 
-.game-row {
-  .game-col {
-    border: 0.1875rem solid $borderColour;
-    padding: 1.25rem;
-  }
+#gameBox {
+  border: 0.1875rem solid #212529;
+  margin: 0 auto;
+  width: 80%;
+}
+
+#stats {
+  font-size: 1.25rem;
 }
 
 #letterBtns {
@@ -37,7 +37,7 @@ body {
     list-style: none;
     margin: 0;
     display: inline-block;
-    padding: 0 10px;
+    padding: 0 0.625rem;
     font-size: 3.125rem;
   }
 }

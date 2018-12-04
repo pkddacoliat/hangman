@@ -7,40 +7,47 @@
     <div class="container-wrapper">
       <div class="container">
         <!-- Instructions -->
-        <!--
-          <div class="row">
-            <div class="col-md-12">
-              Instructions:
-              <p>
-                Guess the word based on the category given. Enter your guesses by
-                clicking on the virtual keyboard. You have 6 lives. Every wrong
-                guesses reduces your remaining lives by 1. You win by guessing the
-                word and you lose when your remaining lives becomes 0.
-              </p>
-            </div>
-          </div>
-        -->
-
-        <!-- Gamebox -->
-        <div class="row justify-content-center game-row mt-3">
-          <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10 col-10 game-col">
-            <img
-              src="/images/1.min.png"
-              class="img-fluid"
-              alt="Hangman"
-              width="400"
-              height="400"
-            />
+        <div class="row mt-2">
+          <div class="col-md-12">
+            <b>Instructions:</b>
+            <p>
+              Guess the word based on the category given. Enter your guesses by
+              clicking on the virtual keyboard. You have 6 lives. Every wrong
+              guesses reduces your remaining lives by 1. You win by guessing the
+              word and you lose when your remaining lives becomes 0.
+            </p>
           </div>
         </div>
 
-        <!-- Stats and Category -->
-        <div class="row justify-content-center">
-          <div class="col-md-3 order-md-1 order-sm-2 order-2">Streak: 0</div>
-          <div class="col-md-3 order-md-2 order-sm-1 order-1">
-            Category: Sports
+        <!-- Stats -->
+        <div class="row justify-content-center" id="stats">
+          <div class="col-md-3 order-md-1 order-sm-2 order-2">
+            <b>Streak:</b> 0
           </div>
-          <div class="col-md-3 order-md-3 order-sm-3 order-3">Games Won: 0</div>
+          <div class="col-md-3 order-md-2 order-sm-1 order-1">
+            <b>Lives:</b> 6
+          </div>
+          <div class="col-md-3 order-md-3 order-sm-3 order-3">
+            <b>Games Won:</b> 0
+          </div>
+        </div>
+
+        <!-- Gamebox -->
+        <div class="row justify-content-center">
+          <div class="container" id="gameBox">
+            <div class="col-md-12 my-4" id="category">
+              <b>Category:</b> Dog Breed
+            </div>
+            <div class="col-xl-12 col-lg-8 col-md-6 col-sm-10 col-10 mb-4">
+              <img
+                src="/images/7.min.png"
+                class="img-fluid"
+                alt="Hangman"
+                width="300"
+                height="300"
+              />
+            </div>
+          </div>
         </div>
 
         <!-- Placeholder -->
@@ -49,11 +56,13 @@
         </div>
 
         <!-- Virtual Keyboard -->
-        <div class="row justify-content-center letter-buttons mt-2">
+        <div class="row justify-content-center letter-buttons mt-2 mb-5">
           <div class="col-xl-6 col-lg-6 col-md-10" id="letterBtns"></div>
         </div>
       </div>
+      <!-- End of container -->
     </div>
+    <!-- End of container-wrapper -->
     <% include ../partials/scripts %>
   </body>
 </html>

@@ -1,12 +1,16 @@
 body {
   text-align: center;
   font-family: "Indie Flower", cursive;
-  font-weight: bold;
 }
 
-.game-row .game-col {
+#gameBox {
   border: 0.1875rem solid #212529;
-  padding: 1.25rem;
+  margin: 0 auto;
+  width: 80%;
+}
+
+#stats {
+  font-size: 1.25rem;
 }
 
 #letterBtns .btn {
@@ -29,6 +33,6 @@ body {
   list-style: none;
   margin: 0;
   display: inline-block;
-  padding: 0 10px;
+  padding: 0 0.625rem;
   font-size: 3.125rem;
 }
