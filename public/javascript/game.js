@@ -1,10 +1,7 @@
 $(document).ready(() => {
   // Setup game on load
   populateKeyboard();
-  newGame();
-
-  // Buttons Onclick Handler
-  checkGuess();
+  startGame();
 });
 
 populateKeyboard = () => {
@@ -15,7 +12,7 @@ populateKeyboard = () => {
   for (let i = 0; i < 26; i++) {
     let $letterBtn = $(
       '<button type="button" class="btn btn-primary btn-lg">' +
-        alphabet[i] +
+        alphabet[i].toUpperCase() +
         "</button>"
     );
     $letterBtn.attr("id", alphabet[i]);
@@ -24,10 +21,13 @@ populateKeyboard = () => {
 };
 
 // Function sets up a new game
-newGame = () => {
+startGame = () => {
   let words = {};
   let chosenCategory;
   let chosenWord;
+  let streak = 0;
+  let lives = 6;
+  let gamesWon = 0;
 
   // Reading in words from json file
   // TODO: Retrieve words from Firebase
@@ -36,31 +36,60 @@ newGame = () => {
       data = value["data"];
     });
     return data;
-  }).then(data => {
-    words = data;
-    console.log(words["data"]);
+  })
+    .then(data => {
+      words = data;
+      chosenCategory =
+        words["data"][Math.floor(Math.random() * words["data"].length)];
+      chosenWord =
+        chosenCategory["words"][
+          Math.floor(Math.random() * chosenCategory["words"].length)
+        ];
+      return [chosenCategory, chosenWord];
+    })
+    .then(results => {
+      let category = results[0]["category"];
+      let word = results[1];
 
-    chosenCategory =
-      words["data"][Math.floor(Math.random() * words["data"].length)];
-    console.log(chosenCategory["category"]);
+      console.log(category);
+      console.log(word);
 
-    chosenWord =
-      chosenCategory["words"][
-        Math.floor(Math.random() * chosenCategory["words"].length)
-      ];
-    console.log(chosenWord.charAt(0).toUpperCase() + chosenWord.slice(1));
+      // Show streak counter
+      $("<b>Streak:</b>&nbsp;<span>" + streak + "</span>").appendTo(
+        document.getElementById("streak")
+      );
 
-    populatePlaceHolder(chosenWord);
-  });
+      // Show lives counter
+      $("<b>Lives:</b>&nbsp;<span>" + lives + "</span>").appendTo(
+        document.getElementById("lives")
+      );
+
+      // Show games won counter
+      $("<b>Games Won:</b>&nbsp;<span>" + gamesWon + "</span>").appendTo(
+        document.getElementById("gamesWon")
+      );
+
+      // Show category
+      $("<b>Category:</b>&nbsp;<span>" + category + "</span>").appendTo(
+        document.getElementById("category")
+      );
+
+      // Populate the placeholder based on the word
+      let guesses = populatePlaceHolder(word);
+
+      // Check Guess
+      checkGuess(word, lives, guesses);
+    });
 };
 
 populatePlaceHolder = word => {
-  placeHolder = document.getElementById("placeHolder");
-  underlines = document.createElement("ul");
+  let placeHolder = document.getElementById("placeHolder");
+  let underlines = document.createElement("ul");
+  let guesses = [];
 
   for (var i = 0; i < word.length; i++) {
     underlines.setAttribute("id", "chosenWord");
-    chosenWordLetter = document.createElement("li");
+    let chosenWordLetter = document.createElement("li");
     chosenWordLetter.setAttribute("class", "guess");
     if (word[i] === " ") {
       chosenWordLetter.innerHTML = "&nbsp;";
@@ -69,15 +98,28 @@ populatePlaceHolder = word => {
       chosenWordLetter.innerHTML = "_";
     }
 
-    // geusses.push(guess);
+    guesses.push(chosenWordLetter);
     placeHolder.appendChild(underlines);
     underlines.appendChild(chosenWordLetter);
   }
+  return guesses;
 };
 
-checkGuess = () => {
+checkGuess = (word, lives, guesses) => {
   $(".letter-buttons .btn").on("click", event => {
-    console.log(event.target.innerHTML);
-    $("#" + event.target.id).attr("disabled", true);
+    let correct = false;
+    let letterIndexes = [];
+    let guess = event.target.id;
+    $("#" + guess).attr("disabled", true);
+    for (let i = 0; i < word.length; i++) {
+      if (guess.toLowerCase() === word[i].toLowerCase()) {
+        correct = true;
+        guesses[i].innerHTML = guess.toUpperCase();
+      }
+    }
+    if (!correct) {
+      lives--;
+      $("#lives span").html(lives);
+    }
   });
 };
