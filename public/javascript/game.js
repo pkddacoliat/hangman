@@ -28,6 +28,7 @@ startGame = () => {
   let streak = 0;
   let lives = 6;
   let gamesWon = 0;
+  let incorrectCounter = 1; // it starts at because the images are named from 1-7.
 
   // Reading in words from json file
   // TODO: Retrieve words from Firebase
@@ -78,7 +79,7 @@ startGame = () => {
       let guesses = populatePlaceHolder(word);
 
       // Check Guess
-      checkGuess(word, lives, guesses);
+      checkGuess(word, lives, guesses, incorrectCounter);
     });
 };
 
@@ -105,7 +106,7 @@ populatePlaceHolder = word => {
   return guesses;
 };
 
-checkGuess = (word, lives, guesses) => {
+checkGuess = (word, lives, guesses, incorrectCounter) => {
   $(".letter-buttons .btn").on("click", event => {
     let correct = false;
     let letterIndexes = [];
@@ -119,7 +120,10 @@ checkGuess = (word, lives, guesses) => {
     }
     if (!correct) {
       lives--;
+      incorrectCounter++;
+      console.log(incorrectCounter);
       $("#lives span").html(lives);
+      $("#hangmanImg img").attr("src", "images/" + incorrectCounter + ".png");
     }
   });
 };
