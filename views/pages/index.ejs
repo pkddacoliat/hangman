@@ -7,36 +7,54 @@
     <div class="container-wrapper">
       <div class="container">
         <!-- Instructions -->
-        <div class="row mt-2">
+        <div class="row my-2" id="instructions">
           <div class="col-md-12">
-            <b>Instructions:</b>
-            <p>
-              Guess the word based on the category given. Enter your guesses by
-              clicking on the virtual keyboard. You have 6 lives. Every wrong
-              guesses reduces your remaining lives by 1. You win by guessing the
-              word and you lose when your remaining lives becomes 0.
-            </p>
+            <a
+              class="btn btn-light"
+              data-toggle="collapse"
+              href="#collapseInstructions"
+              aria-expanded="true"
+              aria-controls="collapseInstructions"
+            >
+              <b>Instructions:</b>
+            </a>
+            <div class="collapse show" id="collapseInstructions">
+              <p>
+                Guess the word based on the category given. Enter your guesses
+                by clicking on the virtual keyboard. You have 6 lives. Every
+                wrong guesses reduces your remaining lives by 1. You win by
+                guessing the word and you lose when your remaining lives becomes
+                0.
+              </p>
+            </div>
           </div>
         </div>
 
         <!-- Stats -->
         <div class="row justify-content-center" id="stats">
-          <div class="col-md-3 order-md-1 order-sm-2 order-2" id="streak"></div>
-          <div class="col-md-3 order-md-2 order-sm-1 order-1" id="lives"></div>
-          <div
-            class="col-md-3 order-md-3 order-sm-3 order-3"
-            id="gamesWon"
-          ></div>
+          <div class="col-md-3 order-md-1 order-sm-2 order-2" id="streak">
+            <b>Streak:</b>&nbsp;<span class="streakCounter"></span>
+          </div>
+          <div class="col-md-3 order-md-2 order-sm-1 order-1" id="lives">
+            <b>Lives:</b>&nbsp;<span class="livesCounter"></span>
+          </div>
+          <div class="col-md-3 order-md-3 order-sm-3 order-3" id="gamesWon">
+            <b>Games Won:</b>&nbsp;<span class="gamesWonCounter"></span>
+          </div>
         </div>
 
         <!-- Gamebox -->
-        <div class="row justify-content-center">
-          <div class="container" id="gameBox">
-            <div class="col-md-12 my-4" id="category"></div>
-            <div
-              class="col-xl-12 col-lg-8 col-md-6 col-sm-10 col-10 mb-4"
-              id="hangmanImg"
-            >
+        <div class="container" id="gameBox">
+          <div class="row justify-content-md-center">
+            <div class="col-md-8 my-4" id="category">
+              <b>Category:</b>&nbsp;<span class="chosenCategory">Nothing</span>
+            </div>
+
+            <div class="col-md-8 my-5" id="playBtn">
+              <button type="button" class="btn btn-dark">Play Game</button>
+            </div>
+
+            <div class="col-md-8 mb-4" id="hangmanImg">
               <img
                 src="/images/1.min.png"
                 class="img-fluid"
@@ -61,6 +79,6 @@
       <!-- End of container -->
     </div>
     <!-- End of container-wrapper -->
-    <% include ../partials/scripts %>
+    <% include ../partials/scripts %> <% include ../partials/modal.ejs %>
   </body>
 </html>

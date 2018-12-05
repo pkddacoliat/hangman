@@ -1,7 +1,95 @@
-$(document).ready(() => {
-  // Setup game on load
+// Global Variables
+let dictionary = data; // from data.js
+let player = "Anon";
+let streak = 0;
+let lives = 6;
+let gamesWon = 0;
+let chosenCategory;
+let chosenWord;
+let guesses = [];
+let correctCounter = 0;
+let incorrectCounter = 1; // starts at 1 because of the names of the images
+let space = 0;
+
+$(() => {
+  // Hide divs for category and hangman image
+  $("#hangmanImg").hide();
+  $("#category").hide();
+
+  // Load stats
+  $(".streakCounter").text(streak);
+  $(".livesCounter").text(lives);
+  $(".gamesWonCounter").text(gamesWon);
+
+  // Show keyboard
   populateKeyboard();
-  startGame();
+
+  // Disable keyboard on load
+  $(".letter-buttons button.btn").attr("disabled", true);
+
+  // Events when the play game button is clicked
+  $("#playBtn").on("click", () => {
+    $("#playBtn").hide();
+    $("#hangmanImg").show();
+    $("#category").show();
+    $(".letter-buttons button.btn").attr("disabled", false);
+    let randomResults = randomCategoryWord(dictionary);
+    chosenCategory = randomResults[0]["category"];
+    chosenWord = randomResults[1];
+    $("#category span").text(chosenCategory);
+    populatePlaceHolder();
+
+    console.log(chosenCategory);
+    console.log(chosenWord);
+  });
+
+  resetGame = () => {
+    $("#myModal").modal("hide");
+    lives = 6;
+    guesses = [];
+    $("#chosenWord").remove();
+    space = 0;
+    correctCounter = 0;
+    incorrectCounter = 1;
+    $(".streakCounter").text(streak);
+    $(".livesCounter").text(lives);
+    $(".gamesWonCounter").text(gamesWon);
+    $(".letter-buttons button.btn").removeClass("btn-success btn-danger");
+    $("#hangmanImg img").attr("src", "images/1.png");
+  };
+
+  // Play again button onclick handler
+  $("#playAgainBtn").on("click", () => {
+    console.log("Play again!");
+    resetGame();
+    let randomResults = randomCategoryWord(dictionary);
+    chosenCategory = randomResults[0]["category"];
+    chosenWord = randomResults[1];
+    guesses = [];
+    populatePlaceHolder();
+    $(".letter-buttons button.btn").attr("disabled", false);
+
+    console.log(chosenCategory);
+    console.log(chosenWord);
+    showStats();
+  });
+
+  // Forfeit button onclick handler
+  $("#forfeitBtn").on("click", () => {
+    console.log("Forfeit");
+    resetGame();
+    $(".letter-buttons button.btn").attr("disabled", true); //
+    $("#hangmanImg").hide();
+    $("#category").hide();
+    $("#playBtn").show();
+
+    console.log(chosenCategory);
+    console.log(chosenWord);
+    showStats();
+  });
+
+  // Check guess when a letter is clicked
+  checkGuess();
 });
 
 populateKeyboard = () => {
@@ -11,7 +99,7 @@ populateKeyboard = () => {
   let virtualKb = document.getElementById("letterBtns");
   for (let i = 0; i < 26; i++) {
     let $letterBtn = $(
-      '<button type="button" class="btn btn-primary btn-lg">' +
+      '<button type="button" class="btn btn-lg">' +
         alphabet[i].toUpperCase() +
         "</button>"
     );
@@ -20,110 +108,121 @@ populateKeyboard = () => {
   }
 };
 
-// Function sets up a new game
-startGame = () => {
-  let words = {};
-  let chosenCategory;
-  let chosenWord;
-  let streak = 0;
-  let lives = 6;
-  let gamesWon = 0;
-  let incorrectCounter = 1; // it starts at because the images are named from 1-7.
-
-  // Reading in words from json file
-  // TODO: Retrieve words from Firebase
-  $.getJSON("/data.json", data => {
-    $.each(data, (index, value) => {
-      data = value["data"];
-    });
-    return data;
-  })
-    .then(data => {
-      words = data;
-      chosenCategory =
-        words["data"][Math.floor(Math.random() * words["data"].length)];
-      chosenWord =
-        chosenCategory["words"][
-          Math.floor(Math.random() * chosenCategory["words"].length)
-        ];
-      return [chosenCategory, chosenWord];
-    })
-    .then(results => {
-      let category = results[0]["category"];
-      let word = results[1];
-
-      console.log(category);
-      console.log(word);
-
-      // Show streak counter
-      $("<b>Streak:</b>&nbsp;<span>" + streak + "</span>").appendTo(
-        document.getElementById("streak")
-      );
-
-      // Show lives counter
-      $("<b>Lives:</b>&nbsp;<span>" + lives + "</span>").appendTo(
-        document.getElementById("lives")
-      );
-
-      // Show games won counter
-      $("<b>Games Won:</b>&nbsp;<span>" + gamesWon + "</span>").appendTo(
-        document.getElementById("gamesWon")
-      );
-
-      // Show category
-      $("<b>Category:</b>&nbsp;<span>" + category + "</span>").appendTo(
-        document.getElementById("category")
-      );
-
-      // Populate the placeholder based on the word
-      let guesses = populatePlaceHolder(word);
-
-      // Check Guess
-      checkGuess(word, lives, guesses, incorrectCounter);
-    });
+randomCategoryWord = () => {
+  let chosenCategory =
+    dictionary[Math.floor(Math.random() * dictionary.length)];
+  let chosenWord =
+    chosenCategory["words"][
+      Math.floor(Math.random() * chosenCategory["words"].length)
+    ];
+  return [chosenCategory, chosenWord];
 };
 
-populatePlaceHolder = word => {
+populatePlaceHolder = () => {
   let placeHolder = document.getElementById("placeHolder");
   let underlines = document.createElement("ul");
-  let guesses = [];
 
-  for (var i = 0; i < word.length; i++) {
+  for (var i = 0; i < chosenWord.length; i++) {
     underlines.setAttribute("id", "chosenWord");
     let chosenWordLetter = document.createElement("li");
     chosenWordLetter.setAttribute("class", "guess");
-    if (word[i] === " ") {
+
+    if (chosenWord[i] === " ") {
       chosenWordLetter.innerHTML = "&nbsp;";
-      space = 1;
+      space += 1;
     } else {
       chosenWordLetter.innerHTML = "_";
     }
-
     guesses.push(chosenWordLetter);
     placeHolder.appendChild(underlines);
     underlines.appendChild(chosenWordLetter);
   }
-  return guesses;
 };
 
-checkGuess = (word, lives, guesses, incorrectCounter) => {
-  $(".letter-buttons .btn").on("click", event => {
-    let correct = false;
-    let letterIndexes = [];
+checkGuess = () => {
+  $(".letter-buttons").on("click", ".btn", event => {
+    event.preventDefault();
     let guess = event.target.id;
-    $("#" + guess).attr("disabled", true);
-    for (let i = 0; i < word.length; i++) {
-      if (guess.toLowerCase() === word[i].toLowerCase()) {
-        correct = true;
+    let correctGuess = false;
+    console.log(guess);
+
+    $("#" + guess).attr("disabled", true); // disable the button;
+
+    // Check if letter selected is in the chosen word
+    for (let i = 0; i < chosenWord.length; i++) {
+      if (guess.toLowerCase() === chosenWord[i].toLowerCase()) {
         guesses[i].innerHTML = guess.toUpperCase();
+        correctCounter += 1;
+        correctGuess = true;
       }
     }
-    if (!correct) {
-      lives--;
-      incorrectCounter++;
-      console.log(incorrectCounter);
-      $("#lives span").html(lives);
+    // Check if guess is incorrect
+    if (correctGuess === false) {
+      lives -= 1;
+      incorrectCounter += 1;
+      $("#" + guess).addClass("btn-danger");
+      $(".livesCounter").text(lives);
+      isGameOver(lives);
       $("#hangmanImg img").attr("src", "images/" + incorrectCounter + ".png");
+    } else {
+      $("#" + guess).addClass("btn-success");
+      isGameOver(lives);
     }
   });
+};
+
+isGameOver = () => {
+  if (lives < 1) {
+    $(".letter-buttons button.btn").attr("disabled", true); // disable all the buttons
+    streak = 0;
+    for (let i = 0; i < chosenWord.length; i++) {
+      guesses[i].innerHTML = chosenWord[i].toUpperCase();
+    }
+    $("#modalTitle").text("You Lost!");
+    showModal();
+  }
+  if (correctCounter + space === chosenWord.length) {
+    $(".letter-buttons button.btn").attr("disabled", true); // disable all the buttons
+    streak += 1;
+    gamesWon += 1;
+    $("#modalTitle").text("You Won!");
+    showModal();
+  }
+};
+
+showModal = () => {
+  $("#myModal").modal({
+    backdrop: "static",
+    keyboard: false
+  });
+};
+
+resetGame = () => {
+  $("#myModal").modal("hide");
+  lives = 6;
+  guesses = [];
+  $("#chosenWord").remove();
+  space = 0;
+  correctCounter = 0;
+  incorrectCounter = 1;
+  $(".streakCounter").text(streak);
+  $(".livesCounter").text(lives);
+  $(".gamesWonCounter").text(gamesWon);
+  $(".letter-buttons button.btn").removeClass("btn-success btn-danger");
+  $("#hangmanImg img").attr("src", "images/1.png");
+};
+
+// Console logs for checking stats
+showStats = () => {
+  console.log(dictionary);
+  console.log("Player -", player);
+  console.log("Streak -", streak);
+  console.log("Lives -", lives);
+  console.log("Games Won -", gamesWon);
+  console.log("Category -", chosenCategory);
+  console.log("Word -", chosenWord);
+  console.log("Guesses -", guesses);
+  console.log("Correct Counter -", correctCounter);
+  console.log("Incorrect Counter -", incorrectCounter);
+  console.log("Space -", space);
 };
