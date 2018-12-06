@@ -60,6 +60,7 @@ $(() => {
 
   // Play again button onclick handler
   $("#playAgainBtn").on("click", () => {
+    $('.collapse').collapse()
     console.log("Play again!");
     resetGame();
     let randomResults = randomCategoryWord(dictionary);
