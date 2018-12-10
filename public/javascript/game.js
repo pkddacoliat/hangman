@@ -60,7 +60,7 @@ $(() => {
 
   // Play again button onclick handler
   $("#playAgainBtn").on("click", () => {
-    $('.collapse').collapse()
+    $(".collapse").collapse();
     console.log("Play again!");
     resetGame();
     let randomResults = randomCategoryWord(dictionary);
@@ -91,6 +91,11 @@ $(() => {
 
   // Check guess when a letter is clicked
   checkGuess();
+
+  let pageURL = window.location.href;
+  if (/login/.test(pageURL)) {
+    $("#login").addClass("active");
+  }
 });
 
 populateKeyboard = () => {
