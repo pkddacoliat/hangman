@@ -91,11 +91,6 @@ $(() => {
 
   // Check guess when a letter is clicked
   checkGuess();
-
-  let pageURL = window.location.href;
-  if (/login/.test(pageURL)) {
-    $("#login").addClass("active");
-  }
 });
 
 populateKeyboard = () => {

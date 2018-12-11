@@ -1,4 +1,24 @@
+<!-- Modules -->
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- JQuery Scripts -->
 <script src="/javascript/data.min.js"></script>
+<script src="/javascript/firebaseAuth.min.js"></script>
 <script src="/javascript/game.min.js"></script>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-auth.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDLV2057pL2j10bwo1tK7_dygxEAQrQtXs",
+    authDomain: "hangman-pkdd.firebaseapp.com",
+    databaseURL: "https://hangman-pkdd.firebaseio.com",
+    projectId: "hangman-pkdd",
+    storageBucket: "hangman-pkdd.appspot.com",
+    messagingSenderId: "396826161162"
+  };
+  firebase.initializeApp(config);
+</script>
