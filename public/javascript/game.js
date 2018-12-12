@@ -15,6 +15,8 @@ let incorrectCounter = 1; // starts at 1 because of the names of the images
 let space = 0;
 
 $(() => {
+  console.log(userDbRef);
+
   // Check if current page is showing the game
   if (window.location.pathname == "/") {
     $("#game").addClass("active");
@@ -196,9 +198,7 @@ isGameOver = () => {
     for (let i = 0; i < chosenWord.length; i++) {
       guesses[i].innerHTML = chosenWord[i].toUpperCase();
     }
-    userDbRef.update({ gamesLost: gamesLost });
-    userDbRef.update({ totalGamesPlayed: totalGamesPlayed });
-    userDbRef.update({ winRatio: winRatio });
+    updateDbStats();
     $("#modalTitle").text("You Lost!");
     showModal();
   }
@@ -208,9 +208,7 @@ isGameOver = () => {
     gamesWon += 1;
     totalGamesPlayed += 1;
     calculateWinRatio();
-    userDbRef.update({ gamesLost: gamesLost });
-    userDbRef.update({ totalGamesPlayed: totalGamesPlayed });
-    userDbRef.update({ winRatio: winRatio });
+    updateDbStats();
     $("#modalTitle").text("You Won!");
     showModal();
   }
@@ -241,6 +239,14 @@ resetGame = () => {
 calculateWinRatio = () => {
   winRatio = (gamesWon * 100) / totalGamesPlayed;
   winRatio = Number(winRatio).toFixed(2);
+};
+
+updateDbStats = () => {
+  if (userDbRef !== undefined) {
+    userDbRef.update({ gamesLost: gamesLost });
+    userDbRef.update({ totalGamesPlayed: totalGamesPlayed });
+    userDbRef.update({ winRatio: winRatio });
+  }
 };
 
 // Console logs for checking stats
