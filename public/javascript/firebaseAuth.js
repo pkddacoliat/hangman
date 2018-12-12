@@ -22,6 +22,8 @@ $(() => {
   // Hide divs onload
   $("#confirmPasswordDiv").hide();
   $("#registerBtn").hide();
+  $("#loginErrorMsg").hide();
+  $("#regErroMsg").hide();
 
   // Auth state changed checks if a user is logged in or not
   firebase.auth().onAuthStateChanged(function(user) {
@@ -72,7 +74,6 @@ $(() => {
       .then(function() {
         // Sign-out successful.
         window.location.replace("/");
-        window.alert("Sign out successful.");
       })
       .catch(function(error) {
         // An error happened.
@@ -82,10 +83,14 @@ $(() => {
 
   // Event handler for the register link
   $("#registerLink a").on("click", () => {
+    $("#email").val("");
+    $("#password").val("");
+    $("#confirmPassword").val("");
     $("#confirmPasswordDiv").show();
     $("#registerBtn").show();
     $("#registerLink").hide();
     $("#loginBtn").hide();
+    $("#loginErrorMsg").hide();
   });
 });
 
@@ -105,8 +110,8 @@ login = () => {
       // Handle Errors here.
       let errorCode = error.code;
       let errorMessage = error.message;
-
-      window.alert(errorCode + ": " + errorMessage);
+      $("#loginErrorMsg").text(errorMessage);
+      $("#loginErrorMsg").show();
       // ...
     });
 };
@@ -117,18 +122,23 @@ register = () => {
   let userPassword = document.getElementById("password").value;
   let confirmPassword = document.getElementById("confirmPassword").value;
 
-  firebase
-    .auth()
-    .createUserWithEmailAndPassword(userEmail, userPassword)
-    .then(userData => {
-      window.location.replace("/");
-    })
-    .catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ...
-    });
-
-  window.alert(userEmail + "" + userPassword + "" + confirmPassword);
+  if (userPassword !== confirmPassword) {
+    $("#regErroMsg").text("Password and password confirmation don't match.");
+    $("#regErroMsg").show();
+  } else {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(userEmail, userPassword)
+      .then(userData => {
+        window.location.replace("/");
+      })
+      .catch(function(error) {
+        // Handle Errors here.
+        let errorCode = error.code;
+        let errorMessage = error.message;
+        $("#regErroMsg").text(errorMessage);
+        $("#regErroMsg").show();
+        // ...
+      });
+  }
 };

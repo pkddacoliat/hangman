@@ -36,7 +36,8 @@ $(() => {
   $(".letter-buttons button.btn").attr("disabled", true);
 
   // Events when the play game button is clicked
-  $("#playBtn").on("click", () => {
+  $("#playBtn .btn").on("click", () => {
+    $(".collapse").collapse();
     $("#playBtn").hide();
     $("#hangmanImg").show();
     $("#category").show();
@@ -68,7 +69,6 @@ $(() => {
 
   // Play again button onclick handler
   $("#playAgainBtn").on("click", () => {
-    $(".collapse").collapse();
     console.log("Play again!");
     resetGame();
     let randomResults = randomCategoryWord(dictionary);
@@ -186,13 +186,13 @@ isGameOver = () => {
     streak = 0;
     gamesLost += 1;
     totalGamesPlayed += 1;
+    calculateWinRatio();
     for (let i = 0; i < chosenWord.length; i++) {
       guesses[i].innerHTML = chosenWord[i].toUpperCase();
     }
     userDbRef.update({ gamesLost: gamesLost });
     userDbRef.update({ totalGamesPlayed: totalGamesPlayed });
     userDbRef.update({ winRatio: winRatio });
-    calculateWinRatio();
     $("#modalTitle").text("You Lost!");
     showModal();
   }
