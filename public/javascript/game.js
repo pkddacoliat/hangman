@@ -99,6 +99,12 @@ $(() => {
 
   // Check guess when a letter is clicked
   checkGuess();
+
+  // Event handler when profile is clicked
+  $("#userProfile").on("click", () => {
+    console.log("test");
+    $("#profileModal").modal();
+  });
 });
 
 populateKeyboard = () => {
@@ -202,7 +208,7 @@ isGameOver = () => {
     gamesWon += 1;
     totalGamesPlayed += 1;
     calculateWinRatio();
-    userDbRef.update({ gamesWon: gamesWon });
+    userDbRef.update({ gamesLost: gamesLost });
     userDbRef.update({ totalGamesPlayed: totalGamesPlayed });
     userDbRef.update({ winRatio: winRatio });
     $("#modalTitle").text("You Won!");

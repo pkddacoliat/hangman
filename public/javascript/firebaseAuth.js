@@ -45,7 +45,12 @@ $(() => {
           gamesWon = userData.gamesWon;
           gamesLost = userData.gamesLost;
           totalGamesPlayed = userData.totalGamesPlayed;
+          winRatio = userData.winRatio;
           $(".gamesWonCounter").text(gamesWon);
+          $("#totalGamesPlayedProfile").text(totalGamesPlayed);
+          $("#gamesWonProfile").text(gamesWon);
+          $("#gamesLostProfile").text(gamesLost);
+          $("#winRatioProfile").text(winRatio + "%");
           console.log("Data already exists");
         } else {
           userDbRef.set({
