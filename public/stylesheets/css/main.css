@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,700");
 body {
   text-align: center;
-  font-family: "Indie Flower", cursive;
+  font-family: "Nunito", sans-serif;
   font-weight: 400;
   width: 100%;
   height: 100%;
@@ -20,14 +20,6 @@ body {
   border: 0.1875rem solid #212529;
   margin: 0 auto;
   width: 80%;
-}
-
-#instructions {
-  font-size: 1.125rem;
-}
-
-#stats {
-  font-size: 1.25rem;
 }
 
 #letterBtns .btn {
@@ -55,9 +47,9 @@ body {
 }
 
 #modalTitle {
-  font-size: 30px;
+  font-size: 1.875rem;
 }
 
 .modal-body {
-  font-size: 20px;
+  font-size: 1.25rem;
 }

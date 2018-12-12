@@ -27,10 +27,25 @@
   <!-- Links to the right -->
   <div class="collapse navbar-collapse" id="navbarNav">
     <div class="navbar-nav ml-auto">
+      <a class="nav-item nav-link" href="/" id="game">Game</a>
       <a class="nav-item nav-link" href="#">Leaderboards</a>
-      <a class="nav-item nav-link disabled" href="#" id="profile">Profile</a>
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          id="profileDropDown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Profile
+        </a>
+        <div class="dropdown-menu" aria-labelledby="profileDropDown">
+          <a class="dropdown-item" href="" id="logout">Logout</a>
+        </div>
+      </li>
       <a class="nav-item nav-link" href="/login" id="login">Login</a>
-      <a class="nav-item nav-link" href="" id="logout">Logout</a>
     </div>
   </div>
 </nav>

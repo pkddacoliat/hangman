@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Indie+Flower|Open+Sans");
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,700");
-$font: "Indie Flower", cursive;
-// $font: "Nunito", sans-serif;
+// $font: "Indie Flower", cursive;
+$font: "Nunito", sans-serif;
 $borderColour: #212529;
 
 body {
@@ -33,13 +33,10 @@ body {
   width: 80%;
 }
 
-#instructions {
-  font-size: 1.125rem;
-}
-
-#stats {
-  font-size: 1.25rem;
-}
+// #instructions,
+// #stats {
+//   font-size: 1.125rem;
+// }
 
 #letterBtns {
   .btn {
@@ -66,9 +63,9 @@ body {
 }
 
 #modalTitle {
-  font-size: 30px;
+  font-size: 1.875rem;
 }
 
 .modal-body {
-  font-size: 20px;
+  font-size: 1.25rem;
 }

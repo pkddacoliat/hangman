@@ -41,11 +41,38 @@
         </div>
       </div>
 
-      <div class="row justify-content-center">
+      <div class="row justify-content-center" id="confirmPasswordDiv">
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-8">
+          <div class="form-group">
+            <!-- <label for="password">Password</label> -->
+            <input
+              type="password"
+              name="confirmPassword"
+              id="confirmPassword"
+              class="form-control"
+              placeholder="Confirm Password..."
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center" id="loginBtn">
         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-8">
           <button class="btn btn-primary btn-block" onclick="login()">
             Login
           </button>
+        </div>
+      </div>
+
+      <div class="row justify-content-center" id="registerBtn">
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-8">
+          <button class="btn btn-primary btn-block" onclick="register()">Register</button>
+        </div>
+      </div>
+
+      <div class="row justify-content-center mt-2" id="registerLink">
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-8">
+          <a href="#">Register</a>
         </div>
       </div>
     </div>

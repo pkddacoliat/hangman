@@ -1,9 +1,12 @@
 // Global Variables
 let dictionary = data; // from data.js
-let player = "Anon";
+let userName = "Anon";
 let streak = 0;
 let lives = 6;
 let gamesWon = 0;
+let gamesLost = 0;
+let totalGamesPlayed = 0;
+let winRatio = 0;
 let chosenCategory;
 let chosenWord;
 let guesses = [];
@@ -12,6 +15,11 @@ let incorrectCounter = 1; // starts at 1 because of the names of the images
 let space = 0;
 
 $(() => {
+  // Check if current page is showing the game
+  if (window.location.pathname == "/") {
+    $("#game").addClass("active");
+  }
+
   // Hide divs for category and hangman image
   $("#hangmanImg").hide();
   $("#category").hide();
@@ -69,7 +77,7 @@ $(() => {
     guesses = [];
     populatePlaceHolder();
     $(".letter-buttons button.btn").attr("disabled", false);
-
+    $("#category span").text(chosenCategory);
     console.log(chosenCategory);
     console.log(chosenWord);
     showStats();
@@ -176,9 +184,15 @@ isGameOver = () => {
   if (lives < 1) {
     $(".letter-buttons button.btn").attr("disabled", true); // disable all the buttons
     streak = 0;
+    gamesLost += 1;
+    totalGamesPlayed += 1;
     for (let i = 0; i < chosenWord.length; i++) {
       guesses[i].innerHTML = chosenWord[i].toUpperCase();
     }
+    userDbRef.update({ gamesLost: gamesLost });
+    userDbRef.update({ totalGamesPlayed: totalGamesPlayed });
+    userDbRef.update({ winRatio: winRatio });
+    calculateWinRatio();
     $("#modalTitle").text("You Lost!");
     showModal();
   }
@@ -186,6 +200,11 @@ isGameOver = () => {
     $(".letter-buttons button.btn").attr("disabled", true); // disable all the buttons
     streak += 1;
     gamesWon += 1;
+    totalGamesPlayed += 1;
+    calculateWinRatio();
+    userDbRef.update({ gamesWon: gamesWon });
+    userDbRef.update({ totalGamesPlayed: totalGamesPlayed });
+    userDbRef.update({ winRatio: winRatio });
     $("#modalTitle").text("You Won!");
     showModal();
   }
@@ -213,13 +232,21 @@ resetGame = () => {
   $("#hangmanImg img").attr("src", "images/1.png");
 };
 
+calculateWinRatio = () => {
+  winRatio = (gamesWon * 100) / totalGamesPlayed;
+  winRatio = Number(winRatio).toFixed(2);
+};
+
 // Console logs for checking stats
 showStats = () => {
   console.log(dictionary);
-  console.log("Player -", player);
+  console.log("Player -", userName);
   console.log("Streak -", streak);
   console.log("Lives -", lives);
   console.log("Games Won -", gamesWon);
+  console.log("Games Lost -", gamesLost);
+  console.log("Total Games Played -", totalGamesPlayed);
+  console.log("Win ratio -", winRatio);
   console.log("Category -", chosenCategory);
   console.log("Word -", chosenWord);
   console.log("Guesses -", guesses);
